@@ -1,0 +1,2091 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="TechStore premium tech ecommerce demo" />
+    <title>Shop all products · TechStore</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+      :root {
+        --bg: #07111f;
+        --card: #0c1a2d;
+        --card2: #10243c;
+        --line: rgba(255, 255, 255, 0.1);
+        --text: #f5f8ff;
+        --muted: #9fb0c7;
+        --brand: #5de0e6;
+        --brand2: #6c63ff;
+        --accent: #a5ff74;
+        --danger: #ff6b8a;
+        --shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(93, 224, 230, 0.08), transparent 26%),
+          radial-gradient(circle at top right, rgba(108, 99, 255, 0.1), transparent 30%), var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      .container {
+        width: min(1180px, 92%);
+        margin: auto;
+      }
+      .topbar {
+        font-size: 12px;
+        color: #b8c6d9;
+        background: #050c16;
+        border-bottom: 1px solid var(--line);
+        padding: 8px 0;
+      }
+      .topbar .container {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        backdrop-filter: blur(18px);
+        background: rgba(7, 17, 31, 0.78);
+        border-bottom: 1px solid var(--line);
+      }
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 76px;
+        gap: 20px;
+      }
+      .logo {
+        font-weight: 900;
+        font-size: 23px;
+        letter-spacing: -0.04em;
+      }
+      .logo span {
+        color: var(--brand);
+      }
+      .navlinks {
+        display: flex;
+        gap: 24px;
+        align-items: center;
+      }
+      .navlinks a {
+        color: #c8d2e0;
+        font-size: 14px;
+        position: relative;
+      }
+      .navlinks a:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -8px;
+        height: 2px;
+        background: linear-gradient(90deg, var(--brand), var(--brand2));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: 0.3s;
+      }
+      .navlinks a:hover:after,
+      .navlinks a.active:after {
+        transform: scaleX(1);
+      }
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .iconbtn {
+        width: 42px;
+        height: 42px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.03);
+        color: #fff;
+        display: grid;
+        place-items: center;
+        position: relative;
+      }
+      .badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        min-width: 18px;
+        height: 18px;
+        padding: 0 5px;
+        border-radius: 20px;
+        background: var(--brand2);
+        font-size: 10px;
+        display: grid;
+        place-items: center;
+      }
+      .hamb {
+        display: none;
+      }
+      .hero {
+        padding: 70px 0 50px;
+        overflow: hidden;
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.12fr 0.88fr;
+        gap: 55px;
+        align-items: center;
+      }
+      .eyebrow {
+        color: var(--brand);
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-size: 12px;
+        margin-bottom: 16px;
+      }
+      .hero h1 {
+        font-size: clamp(42px, 6vw, 74px);
+        line-height: 0.98;
+        letter-spacing: -0.055em;
+        margin: 0 0 24px;
+      }
+      .hero h1 em {
+        font-style: normal;
+        background: linear-gradient(90deg, var(--brand), #b1f6ff, var(--brand2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .hero p {
+        color: var(--muted);
+        font-size: 18px;
+        line-height: 1.75;
+        max-width: 620px;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 28px;
+      }
+      .btn {
+        border: 0;
+        border-radius: 15px;
+        padding: 14px 20px;
+        font-weight: 800;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: 0.25s;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, var(--brand), #7ba9ff);
+        color: #041019;
+      }
+      .btn-ghost {
+        background: rgba(255, 255, 255, 0.04);
+        color: #fff;
+        border: 1px solid var(--line);
+      }
+      .btn-danger {
+        background: rgba(255, 107, 138, 0.12);
+        color: #ffb6c6;
+        border: 1px solid rgba(255, 107, 138, 0.2);
+      }
+      .hero-orb {
+        min-height: 420px;
+        border-radius: 40px;
+        background: linear-gradient(145deg, rgba(93, 224, 230, 0.11), rgba(108, 99, 255, 0.08));
+        border: 1px solid var(--line);
+        position: relative;
+        display: grid;
+        place-items: center;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .hero-orb:before,
+      .hero-orb:after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(4px);
+      }
+      .hero-orb:before {
+        width: 280px;
+        height: 280px;
+        background: rgba(93, 224, 230, 0.18);
+        top: -80px;
+        left: -50px;
+      }
+      .hero-orb:after {
+        width: 360px;
+        height: 360px;
+        background: rgba(108, 99, 255, 0.15);
+        bottom: -150px;
+        right: -120px;
+      }
+      .hero-device {
+        width: min(320px, 70%);
+        aspect-ratio: 1/1.18;
+        border-radius: 34px;
+        background: linear-gradient(160deg, #1b2d48, #0b1422);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow:
+          0 30px 100px rgba(0, 0, 0, 0.5),
+          inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        padding: 12px;
+        transform: rotate(-10deg);
+        animation: float 5s ease-in-out infinite;
+      }
+      .hero-device img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 24px;
+        filter: saturate(1.12);
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) rotate(-10deg);
+        }
+        50% {
+          transform: translateY(-14px) rotate(-6deg);
+        }
+      }
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .rise {
+        animation: rise 0.8s ease both;
+      }
+      .section {
+        padding: 80px 0;
+      }
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        align-items: end;
+        margin-bottom: 30px;
+      }
+      .section-head h2 {
+        font-size: clamp(30px, 4vw, 44px);
+        margin: 0;
+        letter-spacing: -0.04em;
+      }
+      .section-head p {
+        margin: 0;
+        color: var(--muted);
+        max-width: 560px;
+        line-height: 1.7;
+      }
+      .kicker {
+        color: var(--brand);
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        margin-bottom: 8px;
+      }
+      .categories {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 14px;
+      }
+      .cat {
+        padding: 24px;
+        border: 1px solid var(--line);
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+        border-radius: 22px;
+        min-height: 132px;
+        transition: 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+      .cat:after {
+        content: "";
+        position: absolute;
+        inset: auto -35px -55px auto;
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        background: rgba(93, 224, 230, 0.08);
+      }
+      .cat:hover {
+        transform: translateY(-5px);
+        border-color: rgba(93, 224, 230, 0.35);
+      }
+      .cat-icon {
+        font-size: 28px;
+        margin-bottom: 18px;
+      }
+      .cat strong {
+        display: block;
+        font-size: 16px;
+      }
+      .cat span {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 6px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+      }
+      .product-card {
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, rgba(17, 35, 57, 0.94), rgba(11, 22, 36, 0.98));
+        border-radius: 24px;
+        overflow: hidden;
+        transition: 0.3s;
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+      }
+      .product-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+        border-color: rgba(93, 224, 230, 0.28);
+      }
+      .product-media {
+        aspect-ratio: 1/1.05;
+        background: linear-gradient(135deg, #13273f, #091422);
+        padding: 16px;
+        position: relative;
+      }
+      .product-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 18px;
+        display: block;
+        transition: 0.45s;
+      }
+      .product-card:hover .product-media img {
+        transform: scale(1.035);
+      }
+      .pill {
+        position: absolute;
+        top: 22px;
+        left: 22px;
+        padding: 6px 9px;
+        border-radius: 999px;
+        background: rgba(5, 12, 22, 0.74);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        font-size: 10px;
+        font-weight: 800;
+      }
+      .product-info {
+        padding: 18px;
+      }
+      .brand {
+        color: var(--brand);
+        font-size: 10px;
+        text-transform: uppercase;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+      }
+      .product-info h3 {
+        font-size: 17px;
+        margin: 8px 0;
+      }
+      .product-info p {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.6;
+        min-height: 38px;
+        margin: 0 0 12px;
+      }
+      .meta {
+        display: flex;
+        gap: 7px;
+        flex-wrap: wrap;
+      }
+      .meta span {
+        font-size: 11px;
+        color: #c9d3e2;
+        padding: 6px 8px;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        background: rgba(255, 255, 255, 0.025);
+      }
+      .price {
+        font-size: 20px;
+        font-weight: 900;
+        margin: 16px 0 14px;
+      }
+      .price small {
+        font-size: 11px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .card-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .card-actions .btn {
+        padding: 11px 10px;
+        font-size: 12px;
+        border-radius: 12px;
+      }
+      .features {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+      }
+      .feature {
+        padding: 26px;
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .feature b {
+        display: block;
+        font-size: 28px;
+        margin-bottom: 18px;
+      }
+      .feature h3 {
+        margin: 0 0 8px;
+        font-size: 16px;
+      }
+      .feature p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 13px;
+      }
+      .banner {
+        padding: 32px;
+        border-radius: 30px;
+        background: linear-gradient(135deg, rgba(93, 224, 230, 0.11), rgba(108, 99, 255, 0.16));
+        border: 1px solid var(--line);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+      }
+      .banner h3 {
+        font-size: 28px;
+        margin: 0 0 8px;
+        letter-spacing: -0.03em;
+      }
+      .banner p {
+        margin: 0;
+        color: var(--muted);
+      }
+      footer {
+        margin-top: 70px;
+        border-top: 1px solid var(--line);
+        background: #050c16;
+      }
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 1.4fr repeat(3, 1fr);
+        gap: 34px;
+        padding: 52px 0;
+      }
+      .footer-brand p {
+        color: var(--muted);
+        line-height: 1.7;
+        max-width: 330px;
+        font-size: 13px;
+      }
+      .footer h4 {
+        margin: 0 0 14px;
+      }
+      footer a,
+      footer span {
+        display: block;
+        color: #9aabc1;
+        font-size: 13px;
+        margin: 10px 0;
+        text-decoration: none;
+        line-height: 1.6;
+      }
+      .footer-grid > div:not(.footer-brand) {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .footer-grid h4 {
+        color: #eef4fb;
+        font-size: 14px;
+        letter-spacing: 0.02em;
+      }
+      .footer-grid a:hover {
+        color: #fff;
+        transform: translateX(3px);
+      }
+      .footer a:hover {
+        color: #fff;
+      }
+      .footer-bottom {
+        border-top: 1px solid var(--line);
+        padding: 18px 0;
+        color: #71829a;
+        font-size: 12px;
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+      .page-hero {
+        padding: 72px 0 38px;
+      }
+      .page-hero h1 {
+        font-size: clamp(40px, 5vw, 60px);
+        margin: 0 0 14px;
+        letter-spacing: -0.05em;
+      }
+      .page-hero p {
+        color: var(--muted);
+        max-width: 700px;
+        line-height: 1.7;
+      }
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        margin: 16px 0 28px;
+      }
+      .search {
+        flex: 1;
+        min-width: 220px;
+        position: relative;
+      }
+      .search input {
+        width: 100%;
+        padding: 14px 16px;
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.04);
+        color: #fff;
+        outline: none;
+      }
+      .search input:focus {
+        border-color: rgba(93, 224, 230, 0.5);
+      }
+      .filters {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .filter {
+        padding: 11px 13px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 12px;
+        color: #b7c3d3;
+        font-size: 12px;
+      }
+      .filter.active {
+        background: linear-gradient(135deg, rgba(93, 224, 230, 0.13), rgba(108, 99, 255, 0.14));
+        border-color: rgba(93, 224, 230, 0.28);
+        color: #fff;
+      }
+      .detail {
+        padding: 70px 0;
+      }
+      .detail-grid {
+        display: grid;
+        grid-template-columns: 1.04fr 0.96fr;
+        gap: 48px;
+        align-items: start;
+      }
+      .detail-media {
+        background: linear-gradient(145deg, #142a43, #091422);
+        border: 1px solid var(--line);
+        padding: 20px;
+        border-radius: 34px;
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 105px;
+      }
+      .detail-media img {
+        width: 100%;
+        aspect-ratio: 1/1;
+        object-fit: cover;
+        border-radius: 24px;
+      }
+      .detail-info .brand {
+        font-size: 11px;
+      }
+      .detail-info h1 {
+        font-size: clamp(36px, 5vw, 60px);
+        line-height: 1;
+        margin: 10px 0 16px;
+      }
+      .detail-info .desc {
+        font-size: 16px;
+        line-height: 1.8;
+        color: var(--muted);
+      }
+      .selectors {
+        display: flex;
+        gap: 9px;
+        flex-wrap: wrap;
+        margin: 18px 0;
+      }
+      .select-chip {
+        padding: 10px 13px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.03);
+        font-size: 12px;
+      }
+      .detail-price {
+        font-size: 34px;
+        font-weight: 900;
+        margin: 24px 0;
+      }
+      .spec-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      .spec-table th,
+      .spec-table td {
+        text-align: left;
+        padding: 14px 12px;
+        border-bottom: 1px solid var(--line);
+        font-size: 13px;
+      }
+      .spec-table th {
+        color: #8fa1b9;
+        font-weight: 600;
+        width: 32%;
+      }
+      .box-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 18px;
+      }
+      .box-item {
+        padding: 18px;
+        border-radius: 18px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.025);
+        font-size: 13px;
+      }
+      .review-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-top: 20px;
+      }
+      .review {
+        padding: 20px;
+        border-radius: 20px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .stars {
+        color: #ffd86b;
+        letter-spacing: 0.12em;
+        font-size: 13px;
+      }
+      .review p {
+        color: #b6c3d5;
+        line-height: 1.7;
+        font-size: 13px;
+      }
+      .review b {
+        font-size: 13px;
+      }
+      .form-card {
+        padding: 28px;
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .field.full {
+        grid-column: 1/-1;
+      }
+      .field label {
+        font-size: 12px;
+        color: #9eb0c8;
+      }
+      .field input,
+      .field textarea,
+      .field select {
+        padding: 13px 14px;
+        background: rgba(5, 12, 22, 0.72);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        color: #fff;
+        outline: none;
+      }
+      .field textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+      .field input:focus,
+      .field textarea:focus,
+      .field select:focus {
+        border-color: rgba(93, 224, 230, 0.45);
+      }
+      .cart-layout {
+        display: grid;
+        grid-template-columns: 1.3fr 0.7fr;
+        gap: 20px;
+        align-items: start;
+      }
+      .cart-items,
+      .summary {
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .cart-items {
+        overflow: hidden;
+      }
+      .cart-row {
+        display: grid;
+        grid-template-columns: 92px 1fr auto;
+        gap: 16px;
+        padding: 20px;
+        border-bottom: 1px solid var(--line);
+        align-items: center;
+      }
+      .cart-row:last-child {
+        border-bottom: 0;
+      }
+      .cart-img {
+        width: 92px;
+        height: 92px;
+        border-radius: 18px;
+        overflow: hidden;
+        background: #0b1728;
+      }
+      .cart-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .qty {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .qty button {
+        width: 30px;
+        height: 30px;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        background: rgba(255, 255, 255, 0.03);
+        color: #fff;
+      }
+      .summary {
+        padding: 22px;
+        position: sticky;
+        top: 100px;
+      }
+      .sumline {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 9px 0;
+        color: #b2c0d3;
+        font-size: 13px;
+      }
+      .sumline.total {
+        padding-top: 16px;
+        margin-top: 7px;
+        border-top: 1px solid var(--line);
+        color: #fff;
+        font-size: 20px;
+        font-weight: 900;
+      }
+      .empty {
+        text-align: center;
+        padding: 65px 25px;
+        color: var(--muted);
+      }
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 0.8fr 1.2fr;
+        gap: 20px;
+      }
+      .info-stack {
+        display: grid;
+        gap: 14px;
+      }
+      .info-card {
+        padding: 22px;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .info-card small {
+        display: block;
+        color: #7990aa;
+        text-transform: uppercase;
+        letter-spacing: 0.13em;
+        font-size: 9px;
+        font-weight: 800;
+        margin-bottom: 9px;
+      }
+      .info-card b {
+        font-size: 17px;
+      }
+      .info-card p {
+        margin: 7px 0 0;
+        color: var(--muted);
+        line-height: 1.65;
+        font-size: 13px;
+      }
+      .map-box {
+        min-height: 220px;
+        border-radius: 22px;
+        border: 1px solid var(--line);
+        display: grid;
+        place-items: center;
+        background:
+          radial-gradient(circle at 20% 20%, rgba(93, 224, 230, 0.11), transparent 35%),
+          radial-gradient(circle at 80% 80%, rgba(108, 99, 255, 0.12), transparent 30%), #0a1524;
+        color: #a9bdd2;
+        text-align: center;
+        padding: 30px;
+      }
+      .about-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+      .about-card {
+        padding: 28px;
+        border-radius: 24px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.03);
+        min-height: 210px;
+      }
+      .about-card span {
+        font-size: 12px;
+        color: var(--brand);
+        font-weight: 900;
+      }
+      .about-card h3 {
+        font-size: 23px;
+        margin: 12px 0;
+      }
+      .about-card p {
+        color: var(--muted);
+        line-height: 1.8;
+        font-size: 14px;
+      }
+      .notice {
+        padding: 14px 16px;
+        border-radius: 14px;
+        background: rgba(165, 255, 116, 0.08);
+        border: 1px solid rgba(165, 255, 116, 0.17);
+        color: #c9ffc0;
+        font-size: 13px;
+      }
+      .success {
+        padding: 18px;
+        border-radius: 16px;
+        background: rgba(88, 214, 114, 0.12);
+        border: 1px solid rgba(88, 214, 114, 0.25);
+        color: #a7ffc0;
+        font-weight: 800;
+      }
+      .error {
+        padding: 18px;
+        border-radius: 16px;
+        background: rgba(255, 107, 138, 0.08);
+        border: 1px solid rgba(255, 107, 138, 0.2);
+        color: #ffb9c8;
+      }
+      .toast {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        z-index: 100;
+        padding: 14px 18px;
+        border-radius: 14px;
+        background: #101f35;
+        border: 1px solid rgba(93, 224, 230, 0.22);
+        box-shadow: var(--shadow);
+        transform: translateY(25px);
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.3s;
+        font-weight: 700;
+        font-size: 13px;
+      }
+      .toast.show {
+        transform: none;
+        opacity: 1;
+      }
+      @media (max-width: 1050px) {
+        .grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .categories {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .features {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .hero-grid,
+        .detail-grid,
+        .cart-layout,
+        .contact-grid {
+          grid-template-columns: 1fr;
+        }
+        .detail-media {
+          position: relative;
+          top: auto;
+        }
+        .footer-grid {
+          grid-template-columns: 1.4fr 1fr 1fr;
+        }
+      }
+      @media (max-width: 760px) {
+        .navlinks {
+          display: none;
+        }
+        .hamb {
+          display: grid;
+        }
+        .hero {
+          padding-top: 42px;
+        }
+        .hero-orb {
+          min-height: 320px;
+        }
+        .grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .categories {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .section {
+          padding: 60px 0;
+        }
+        .section-head {
+          display: block;
+        }
+        .section-head p {
+          margin-top: 10px;
+        }
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+        .field.full {
+          grid-column: auto;
+        }
+        .box-grid,
+        .review-grid,
+        .about-grid {
+          grid-template-columns: 1fr;
+        }
+        .cart-row {
+          grid-template-columns: 70px 1fr;
+        }
+        .cart-row > div:last-child {
+          grid-column: 2;
+        }
+        .cart-img {
+          width: 70px;
+          height: 70px;
+        }
+        .footer-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .footer-brand {
+          grid-column: 1/-1;
+        }
+      }
+      @media (max-width: 520px) {
+        .topbar {
+          display: none;
+        }
+        .nav {
+          min-height: 66px;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .categories,
+        .features {
+          grid-template-columns: 1fr;
+        }
+        .hero h1 {
+          font-size: 44px;
+        }
+        .actions .btn {
+          width: 100%;
+        }
+        .footer-grid {
+          grid-template-columns: 1fr;
+        }
+        .footer-brand {
+          grid-column: auto;
+        }
+        .card-actions {
+          grid-template-columns: 1fr;
+        }
+        .cart-row {
+          padding: 15px;
+          gap: 11px;
+        }
+        .cart-row h3 {
+          font-size: 14px;
+        }
+        .detail {
+          padding-top: 40px;
+        }
+        .detail-price {
+          font-size: 28px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      const PRODUCTS = [
+        {
+          id: "iphone-16-pro",
+          name: "iPhone 16 Pro",
+          category: "Phones",
+          brand: "Apple",
+          storage: "256GB",
+          ram: "8GB",
+          color: "Desert Titanium",
+          price: 59999,
+          img: "https://f.nooncdn.com/p/pzsku/Z229175D265A788B722F8Z/45/_/1779199673/0d9e975c-78ae-47e2-9c26-534f5cb664e0.jpg?width=800",
+          desc: "Pro camera system, A18 Pro performance and a titanium design.",
+          chip: "Apple A18 Pro",
+          display: "6.3-inch Super Retina XDR OLED, 120Hz",
+          camera: "48MP Fusion + 48MP Ultra Wide + 12MP 5x Telephoto",
+          battery: "Up to 27 hours video playback",
+          os: "iOS 18",
+          weight: "199 g",
+          box: "iPhone, USB-C charge cable, documentation",
+        },
+        {
+          id: "iphone-16",
+          name: "iPhone 16",
+          category: "Phones",
+          brand: "Apple",
+          storage: "128GB",
+          ram: "8GB",
+          color: "Ultramarine",
+          price: 42999,
+          img: "https://media.btech.com/catalogs/4/2/f/4/42f4c5e1cf1105b9f105c737c6eb35ff85191946_iPhone_16_Pink_PDP_Image_Position_1__en_ME.jpg",
+          desc: "A18-powered iPhone with Camera Control and a bright OLED display.",
+          chip: "Apple A18",
+          display: "6.1-inch Super Retina XDR OLED",
+          camera: "48MP Fusion + 12MP Ultra Wide",
+          battery: "Up to 22 hours video playback",
+          os: "iOS 18",
+          weight: "170 g",
+          box: "iPhone, USB-C charge cable, documentation",
+        },
+        {
+          id: "galaxy-s25-ultra",
+          name: "Samsung Galaxy S25 Ultra",
+          category: "Phones",
+          brand: "Samsung",
+          storage: "256GB",
+          ram: "12GB",
+          color: "Titanium Black",
+          price: 56999,
+          img: "https://media.btech.com/catalogs/c/8/7/b/c87b57567d5dc193b7f9fc116bf08573865d84f9_3b325b9febf142c246dc5e917f97583b54603d65f0128a6970697ce550258366.jpeg",
+          desc: "Ultra flagship with S Pen, 200MP camera and Snapdragon 8 Elite.",
+          chip: "Snapdragon 8 Elite for Galaxy",
+          display: "6.9-inch QHD+ Dynamic AMOLED 2X, 120Hz",
+          camera: "200MP Wide + 50MP Ultra Wide + 50MP 5x + 10MP 3x",
+          battery: "5000mAh",
+          os: "Android 15 / One UI 7",
+          weight: "218 g",
+          box: "Phone, USB-C cable, SIM tool, documentation",
+        },
+        {
+          id: "galaxy-s25",
+          name: "Samsung Galaxy S25",
+          category: "Phones",
+          brand: "Samsung",
+          storage: "256GB",
+          ram: "12GB",
+          color: "Navy",
+          price: 39999,
+          img: "https://2b.com.eg/media/catalog/product/cache/661473ab953cdcdf4c3b607144109b90/s/a/samsung-galaxy-s25-silver-1.jpg",
+          desc: "Compact flagship with Snapdragon 8 Elite, 120Hz AMOLED and Galaxy AI.",
+          chip: "Snapdragon 8 Elite for Galaxy",
+          display: "6.2-inch FHD+ Dynamic LTPO AMOLED 2X, 120Hz",
+          camera: "50MP Wide + 12MP Ultra Wide + 10MP Telephoto",
+          battery: "4000mAh",
+          os: "Android 15 / One UI 7",
+          weight: "162 g",
+          box: "Phone, USB-C cable, SIM tool, documentation",
+        },
+        {
+          id: "galaxy-a56",
+          name: "Samsung Galaxy A56 5G",
+          category: "Phones",
+          brand: "Samsung",
+          storage: "256GB",
+          ram: "8GB",
+          color: "Awesome Lightgray",
+          price: 23999,
+          img: "https://www.kanawatstores.com/images/thumbs/0000950_samsung-galaxy-a56-5g-8gb256gb-ds-67-egy-awesome-lightgray.jpeg",
+          desc: "Slim mid-range Galaxy with 120Hz AMOLED and a large battery.",
+          chip: "Exynos 1580",
+          display: "6.7-inch FHD+ Super AMOLED, 120Hz",
+          camera: "50MP Main + 12MP Ultra Wide + 5MP Macro",
+          battery: "5000mAh",
+          os: "Android 15 / One UI",
+          weight: "198 g",
+          box: "Phone, USB cable, SIM tool, documentation",
+        },
+        {
+          id: "pixel-9-pro",
+          name: "Google Pixel 9 Pro",
+          category: "Phones",
+          brand: "Google",
+          storage: "256GB",
+          ram: "16GB",
+          color: "Obsidian",
+          price: 44999,
+          img: "https://mobizil.com/wp-content/uploads/2024/08/Google-Pixel-9-Pro-1.jpg",
+          desc: "Google AI flagship with Tensor G4 and a pro triple-camera setup.",
+          chip: "Google Tensor G4",
+          display: "6.3-inch LTPO OLED, 1-120Hz",
+          camera: "50MP Wide + 48MP Ultra Wide + 48MP 5x Telephoto",
+          battery: "4700mAh",
+          os: "Android 14",
+          weight: "199 g",
+          box: "Phone, USB-C cable, SIM tool, documentation",
+        },
+        {
+          id: "pixel-9",
+          name: "Google Pixel 9",
+          category: "Phones",
+          brand: "Google",
+          storage: "128GB",
+          ram: "12GB",
+          color: "Peony",
+          price: 33999,
+          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwtstdrZQNlPF8za9TRwjFRaKxxVp89Ov2jQv-AdEMreXiHcarOE3aDko&s=10",
+          desc: "Clean Android experience with Tensor G4 and AI-powered photography.",
+          chip: "Google Tensor G4",
+          display: "6.3-inch OLED, 120Hz",
+          camera: "50MP Wide + 48MP Ultra Wide",
+          battery: "4700mAh",
+          os: "Android 14",
+          weight: "198 g",
+          box: "Phone, USB-C cable, SIM tool, documentation",
+        },
+        {
+          id: "oneplus-13",
+          name: "OnePlus 13",
+          category: "Phones",
+          brand: "OnePlus",
+          storage: "256GB",
+          ram: "12GB",
+          color: "Black Eclipse",
+          price: 37999,
+          img: "https://media.zid.store/cdn-cgi/image/w=1200,h=630,q=90,fit=pad,background=white/https://media.zid.store/thumbs/a6100ef7-c628-428c-822e-5bbfd912cd88/cd4f0c24-bb45-4fd9-be82-dc9acd5cfd9a-thumbnail-1000x1000.png",
+          desc: "Flagship Snapdragon performance with a high-resolution LTPO display.",
+          chip: "Snapdragon 8 Elite",
+          display: "6.82-inch QHD+ LTPO AMOLED, 1-120Hz",
+          camera: "50MP Wide + 50MP Ultra Wide + 50MP Telephoto",
+          battery: "6000mAh",
+          os: "Android 15 / OxygenOS",
+          weight: "210 g",
+          box: "Phone, charger, cable, SIM tool, documentation",
+        },
+        {
+          id: "xiaomi-15",
+          name: "Xiaomi 15",
+          category: "Phones",
+          brand: "Xiaomi",
+          storage: "256GB",
+          ram: "12GB",
+          color: "Black",
+          price: 32999,
+          img: "https://cdn.shortpixel.ai/spai/w_556+q_glossy+ret_img+to_webp/mobizil.com/wp-content/uploads/2024/10/Xiaomi-15-Pro-1.jpg",
+          desc: "Compact Leica-powered flagship with UFS 4.0 and LPDDR5X memory.",
+          chip: "Snapdragon 8 Elite",
+          display: "6.36-inch AMOLED, 120Hz",
+          camera: "50MP Main + 50MP Telephoto + 50MP Ultra Wide",
+          battery: "5240mAh",
+          os: "Android 15 / HyperOS",
+          weight: "191 g",
+          box: "Phone, charger, cable, SIM tool, documentation",
+        },
+        {
+          id: "redmi-note-14-pro-5g",
+          name: "Redmi Note 14 Pro 5G",
+          category: "Phones",
+          brand: "Xiaomi",
+          storage: "256GB",
+          ram: "8GB",
+          color: "Midnight Black",
+          price: 16999,
+          img: "https://2b.com.eg/media/catalog/product/cache/661473ab953cdcdf4c3b607144109b90/x/i/xiaomi-redmi-note-14-pro-plus-black-1.jpg",
+          desc: "Feature-packed 5G phone with 200MP camera and AMOLED display.",
+          chip: "MediaTek Dimensity 7300-Ultra",
+          display: "6.67-inch AMOLED, 120Hz",
+          camera: "200MP Main + 8MP Ultra Wide + 2MP Macro",
+          battery: "5500mAh",
+          os: "Android 14 / HyperOS",
+          weight: "190 g",
+          box: "Phone, case, charger, cable, SIM tool",
+        },
+        {
+          id: "nothing-phone-3",
+          name: "Nothing Phone (3)",
+          category: "Phones",
+          brand: "Nothing",
+          storage: "256GB",
+          ram: "12GB",
+          color: "White",
+          price: 32999,
+          img: "https://ennap.com/cdn/shop/files/Nothing-Phone-3-Dual-SIM-5GStorage-Capacity-12GB-256GBColor-WhiteEnnapcom.png?v=1781530827&width=800",
+          desc: "Distinctive transparent design with premium performance and Glyph interface.",
+          chip: "Snapdragon 8s Gen 4",
+          display: "6.77-inch AMOLED, 120Hz",
+          camera: "50MP Main + 50MP Ultra Wide + 50MP Telephoto",
+          battery: "5150mAh",
+          os: "Nothing OS 3.5",
+          weight: "218 g",
+          box: "Phone, USB-C cable, SIM tool, documentation",
+        },
+        {
+          id: "honor-magic7-pro",
+          name: "HONOR Magic7 Pro",
+          category: "Phones",
+          brand: "HONOR",
+          storage: "512GB",
+          ram: "12GB",
+          color: "Black",
+          price: 42999,
+          img: "https://mobizil.com/wp-content/uploads/2025/01/Honor-Magic-7-Pro.jpg",
+          desc: "Curved-display flagship with Snapdragon 8 Elite and powerful telephoto camera.",
+          chip: "Snapdragon 8 Elite",
+          display: "6.8-inch LTPO OLED, 1-120Hz",
+          camera: "50MP Wide + 50MP Ultra Wide + 200MP Telephoto",
+          battery: "5850mAh",
+          os: "MagicOS 9",
+          weight: "223 g",
+          box: "Phone, charger, cable, case, documentation",
+        },
+        {
+          id: "iphone-15",
+          name: "iPhone 15",
+          category: "Phones",
+          brand: "Apple",
+          storage: "128GB",
+          ram: "6GB",
+          color: "Black",
+          price: 32999,
+          img: "https://f.nooncdn.com/p/pzsku/Z725F1B668FA052656C1FZ/45/_/1779094680/f58f4ffc-3169-426f-9871-b9314fbb482b.jpg",
+          desc: "Dynamic Island iPhone with USB-C and a 48MP main camera.",
+          chip: "Apple A16 Bionic",
+          display: "6.1-inch Super Retina XDR OLED",
+          camera: "48MP Main + 12MP Ultra Wide",
+          battery: "Up to 20 hours video playback",
+          os: "iOS 17",
+          weight: "171 g",
+          box: "iPhone, USB-C charge cable, documentation",
+        },
+        {
+          id: "iphone-15-pro-max",
+          name: "iPhone 15 Pro Max",
+          category: "Phones",
+          brand: "Apple",
+          storage: "256GB",
+          ram: "8GB",
+          color: "Natural Titanium",
+          price: 46999,
+          img: "https://www.apple.com/newsroom/images/2023/09/apple-offers-more-ways-to-order-the-new-lineups/article/Apple-iPhone-15-Pro-lineup-natural-titanium_inline.jpg.large.jpg",
+          desc: "Titanium Pro Max with A17 Pro and 5x telephoto zoom.",
+          chip: "Apple A17 Pro",
+          display: "6.7-inch Super Retina XDR OLED, 120Hz",
+          camera: "48MP Main + 12MP Ultra Wide + 12MP 5x Telephoto",
+          battery: "Up to 29 hours video playback",
+          os: "iOS 17",
+          weight: "221 g",
+          box: "iPhone, USB-C charge cable, documentation",
+        },
+        {
+          id: "galaxy-s24-fe",
+          name: "Samsung Galaxy S24 FE",
+          category: "Phones",
+          brand: "Samsung",
+          storage: "128GB",
+          ram: "8GB",
+          color: "Graphite",
+          price: 22999,
+          img: "https://pimcdn.sharafdg.com/images/S400903038_1?1768239004",
+          desc: "Fan Edition flagship experience with 120Hz AMOLED and Galaxy AI.",
+          chip: "Exynos 2400e",
+          display: "6.7-inch Dynamic AMOLED 2X, 120Hz",
+          camera: "50MP Wide + 12MP Ultra Wide + 8MP 3x Telephoto",
+          battery: "4700mAh",
+          os: "Android 14 / One UI 6.1",
+          weight: "213 g",
+          box: "Phone, USB-C cable, SIM tool, documentation",
+        },
+        {
+          id: "macbook-air-m3-13",
+          name: "MacBook Air 13-inch M3",
+          category: "Laptops",
+          brand: "Apple",
+          storage: "256GB SSD",
+          ram: "8GB",
+          color: "Midnight",
+          price: 51999,
+          img: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=900&q=85",
+          desc: "Silent, fanless MacBook Air with Apple M3 and all-day battery life.",
+          chip: "Apple M3, 8-core CPU",
+          display: "13.6-inch Liquid Retina, 2560×1664",
+          camera: "1080p FaceTime HD",
+          battery: "Up to 18 hours",
+          os: "macOS",
+          weight: "1.24 kg",
+          box: "MacBook Air, USB-C to MagSafe 3 Cable, USB-C Power Adapter",
+        },
+        {
+          id: "macbook-air-m3-15",
+          name: "MacBook Air 15-inch M3",
+          category: "Laptops",
+          brand: "Apple",
+          storage: "512GB SSD",
+          ram: "8GB",
+          color: "Starlight",
+          price: 62999,
+          img: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=85",
+          desc: "Large-screen Air with M3 power, two external display support and quiet operation.",
+          chip: "Apple M3, 8-core CPU",
+          display: "15.3-inch Liquid Retina, 2880×1864",
+          camera: "1080p FaceTime HD",
+          battery: "Up to 18 hours",
+          os: "macOS",
+          weight: "1.51 kg",
+          box: "MacBook Air, USB-C to MagSafe 3 Cable, USB-C Power Adapter",
+        },
+        {
+          id: "macbook-pro-m4-14",
+          name: "MacBook Pro 14-inch M4",
+          category: "Laptops",
+          brand: "Apple",
+          storage: "512GB SSD",
+          ram: "16GB",
+          color: "Space Black",
+          price: 86999,
+          img: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&w=900&q=85",
+          desc: "Pro notebook with M4 performance, Liquid Retina XDR and active cooling.",
+          chip: "Apple M4, 10-core CPU",
+          display: "14.2-inch Liquid Retina XDR, 3024×1964, ProMotion",
+          camera: "12MP Center Stage",
+          battery: "Up to 24 hours",
+          os: "macOS",
+          weight: "1.55 kg",
+          box: "MacBook Pro, USB-C to MagSafe 3 Cable, USB-C Power Adapter",
+        },
+        {
+          id: "dell-xps-13-9350",
+          name: "Dell XPS 13 9350",
+          category: "Laptops",
+          brand: "Dell",
+          storage: "512GB SSD",
+          ram: "16GB",
+          color: "Platinum",
+          price: 64999,
+          img: "https://i.dell.com/sites/csimages/Video_Imagery/all/xps-9350-silver-thumb.png",
+          desc: "Premium compact Windows laptop with Intel Core Ultra and a 13.4-inch display.",
+          chip: "Intel Core Ultra 7",
+          display: "13.4-inch FHD+ InfinityEdge",
+          camera: "FHD IR camera",
+          battery: "Up to 26 hours (configuration dependent)",
+          os: "Windows 11",
+          weight: "1.18 kg",
+          box: "Laptop, USB-C power adapter, documentation",
+        },
+        {
+          id: "dell-inspiron-14",
+          name: "Dell Inspiron 14 5440",
+          category: "Laptops",
+          brand: "Dell",
+          storage: "512GB SSD",
+          ram: "16GB",
+          color: "Platinum Silver",
+          price: 32999,
+          img: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=900&q=85",
+          desc: "Versatile 14-inch everyday laptop for study, work and entertainment.",
+          chip: "Intel Core 5 120U",
+          display: "14-inch FHD+ 1920×1200",
+          camera: "1080p webcam",
+          battery: "54Wh",
+          os: "Windows 11",
+          weight: "1.54 kg",
+          box: "Laptop, AC adapter, documentation",
+        },
+        {
+          id: "hp-spectre-x360-14",
+          name: "HP Spectre x360 14",
+          category: "Laptops",
+          brand: "HP",
+          storage: "1TB SSD",
+          ram: "16GB",
+          color: "Nightfall Black",
+          price: 69999,
+          img: "https://m.media-amazon.com/images/I/51k4j6kS6fL.jpg",
+          desc: "Premium 2-in-1 OLED laptop with a sharp touchscreen and modern Intel Core Ultra.",
+          chip: "Intel Core Ultra 7",
+          display: "14-inch 2.8K OLED touch, 120Hz",
+          camera: "9MP IR webcam",
+          battery: "Up to 17 hours",
+          os: "Windows 11",
+          weight: "1.44 kg",
+          box: "Laptop, pen, power adapter, documentation",
+        },
+        {
+          id: "hp-omnibook-5-flip",
+          name: "HP OmniBook 5 Flip 14",
+          category: "Laptops",
+          brand: "HP",
+          storage: "512GB SSD",
+          ram: "8GB",
+          color: "Meteor Silver",
+          price: 29999,
+          img: "https://2b.com.eg/media/catalog/product/cache/661473ab953cdcdf4c3b607144109b90/z/h/zh532.jpg",
+          desc: "Flexible 2-in-1 touchscreen laptop with a bright 2K-class panel for everyday use.",
+          chip: "Intel Core i5-class processor",
+          display: "14-inch 2K touch display",
+          camera: "FHD webcam",
+          battery: "All-day class/work use",
+          os: "Windows 11",
+          weight: "Approx. 1.5 kg",
+          box: "Laptop, power adapter, documentation",
+        },
+        {
+          id: "lenovo-yoga-7i",
+          name: "Lenovo Yoga 7i 14",
+          category: "Laptops",
+          brand: "Lenovo",
+          storage: "512GB SSD",
+          ram: "16GB",
+          color: "Cosmic Blue",
+          price: 43999,
+          img: "https://m.media-amazon.com/images/I/51+bUOeGhrL._AC_UF350,350_QL80_.jpg",
+          desc: "2-in-1 OLED laptop with a 360-degree hinge and strong battery life.",
+          chip: "Intel Core Ultra 7",
+          display: "14-inch 2.8K OLED touch, 120Hz",
+          camera: "1080p IR webcam",
+          battery: "71Wh",
+          os: "Windows 11",
+          weight: "1.49 kg",
+          box: "Laptop, USB-C charger, documentation",
+        },
+        {
+          id: "lenovo-ideapad-slim-5",
+          name: "Lenovo IdeaPad Slim 5 14",
+          category: "Laptops",
+          brand: "Lenovo",
+          storage: "512GB SSD",
+          ram: "16GB",
+          color: "Cloud Grey",
+          price: 30999,
+          img: "https://m.media-amazon.com/images/I/61PJm2UiTPL.jpg",
+          desc: "Slim everyday laptop with a bright 16:10 screen and efficient Ryzen processor.",
+          chip: "AMD Ryzen 7 7735HS",
+          display: "14-inch 2.2K IPS, 16:10",
+          camera: "1080p webcam",
+          battery: "56.6Wh",
+          os: "Windows 11",
+          weight: "1.46 kg",
+          box: "Laptop, USB-C power adapter, documentation",
+        },
+        {
+          id: "asus-zenbook-14-oled",
+          name: "ASUS Zenbook 14 OLED",
+          category: "Laptops",
+          brand: "ASUS",
+          storage: "1TB SSD",
+          ram: "16GB",
+          color: "Ponder Blue",
+          price: 47999,
+          img: "https://egyptlaptop.com/images/detailed/75/Asus-ZenBook-14-OLED-UX3402ZA-OLED005W.webp",
+          desc: "Light OLED ultrabook with Intel Core Ultra, premium speakers and a precision touchpad.",
+          chip: "Intel Core Ultra 7",
+          display: "14-inch 3K OLED, 120Hz",
+          camera: "FHD IR webcam",
+          battery: "75Wh",
+          os: "Windows 11",
+          weight: "1.20 kg",
+          box: "Laptop, USB-C charger, documentation",
+        },
+        {
+          id: "asus-vivobook-15",
+          name: "ASUS Vivobook 15",
+          category: "Laptops",
+          brand: "ASUS",
+          storage: "512GB SSD",
+          ram: "16GB",
+          color: "Cool Silver",
+          price: 27999,
+          img: "https://media.btech.com/catalogs/d/f/8/b/df8be7724daf534bceebb13f46eb3597387c3fa1_e41d07a8bf6390f7c661c1dd593a206d5d3f71e41d13b0aaeb06644fe6f03613.jpeg",
+          desc: "Practical 15.6-inch Windows laptop made for study, office and streaming.",
+          chip: "Intel Core i5",
+          display: "15.6-inch FHD IPS",
+          camera: "720p webcam",
+          battery: "42Wh",
+          os: "Windows 11",
+          weight: "1.70 kg",
+          box: "Laptop, power adapter, documentation",
+        },
+        {
+          id: "acer-swift-go-14",
+          name: "Acer Swift Go 14",
+          category: "Laptops",
+          brand: "Acer",
+          storage: "512GB SSD",
+          ram: "16GB",
+          color: "Pure Silver",
+          price: 36999,
+          img: "https://m.media-amazon.com/images/I/71fIqfWJrBL.jpg",
+          desc: "Portable OLED laptop with strong productivity performance and a crisp webcam.",
+          chip: "Intel Core Ultra 5",
+          display: "14-inch 2.8K OLED, 90Hz",
+          camera: "1440p webcam",
+          battery: "65Wh",
+          os: "Windows 11",
+          weight: "1.32 kg",
+          box: "Laptop, power adapter, documentation",
+        },
+        {
+          id: "msi-modern-14",
+          name: "MSI Modern 14",
+          category: "Laptops",
+          brand: "MSI",
+          storage: "512GB SSD",
+          ram: "16GB",
+          color: "Classic Black",
+          price: 26999,
+          img: "https://www.abcshop-eg.com/web/image/product.product/1918/image_1920?unique=6158ef3",
+          desc: "Clean and portable productivity notebook with a 14-inch FHD display.",
+          chip: "Intel Core i5",
+          display: "14-inch FHD IPS-level",
+          camera: "HD webcam",
+          battery: "39.3Wh",
+          os: "Windows 11",
+          weight: "1.4 kg",
+          box: "Laptop, power adapter, documentation",
+        },
+        {
+          id: "lenovo-loq-15",
+          name: "Lenovo LOQ 15",
+          category: "Laptops",
+          brand: "Lenovo",
+          storage: "1TB SSD",
+          ram: "16GB",
+          color: "Luna Grey",
+          price: 49999,
+          img: "https://api-rayashop.freetls.fastly.net/media/catalog/product/cache/4e49ac3a70c0b98a165f3fa6633ffee1/l/o/loq-15-irx9-ct1-03_jqjrxtbzdrqzfrrx_1.jpg?format=webp&width=700",
+          desc: "Gaming-ready 15-inch laptop with RTX graphics and a high-refresh display.",
+          chip: "Intel Core i7 HX-class",
+          display: "15.6-inch FHD 144Hz",
+          camera: "1080p webcam",
+          battery: "60Wh",
+          os: "Windows 11",
+          weight: "2.38 kg",
+          box: "Laptop, charger, documentation",
+        },
+        {
+          id: "asus-tuf-gaming-a15",
+          name: "ASUS TUF Gaming A15",
+          category: "Laptops",
+          brand: "ASUS",
+          storage: "1TB SSD",
+          ram: "16GB",
+          color: "Graphite Black",
+          price: 45999,
+          img: "https://media.btech.com/catalogs/e/e/e/d/eeed1e22e5e895fcf4a5468d3c7504a934fbb0d0_82f026714ffce8bafd4c766656b25b8b1db1c2d2d5013a6972f2bdd219cff767.jpeg",
+          desc: "Durable gaming laptop with Ryzen processing and dedicated GeForce graphics.",
+          chip: "AMD Ryzen 7 8845HS",
+          display: "15.6-inch FHD 144Hz",
+          camera: "720p HD camera",
+          battery: "90Wh",
+          os: "Windows 11",
+          weight: "2.30 kg",
+          box: "Laptop, 240W adapter, documentation",
+        },
+        {
+          id: "sony-wh-1000xm5",
+          name: "Sony WH-1000XM5",
+          category: "Audio",
+          brand: "Sony",
+          storage: "—",
+          ram: "—",
+          color: "Black",
+          price: 17999,
+          img: "https://media.btech.com/catalogs/4/4/e/c/44ec3998904bc55f2f2133b5a213c7cd288fda45_824a502112550b412bca666bd6c48a2805ee81e48667a65ae97b47ab6ad0dc57.jpg",
+          desc: "Premium wireless headphones with industry-leading noise cancellation.",
+          chip: "Integrated V1 + QN1 processors",
+          display: "—",
+          camera: "—",
+          battery: "Up to 30 hours",
+          os: "Bluetooth",
+          weight: "250 g",
+          box: "Headphones, case, USB-C cable, audio cable",
+        },
+        {
+          id: "bose-qc-ultra",
+          name: "Bose QuietComfort Ultra Headphones",
+          category: "Audio",
+          brand: "Bose",
+          storage: "—",
+          ram: "—",
+          color: "Black",
+          price: 19999,
+          img: "https://f.nooncdn.com/p/pzsku/ZB0ED6250667218274D1CZ/45/_/1779094781/a41dd085-b1b6-48b3-aaf7-e488907614d4.jpg",
+          desc: "Immersive wireless headphones with excellent ANC and spatial audio.",
+          chip: "Bose Immersive Audio platform",
+          display: "—",
+          camera: "—",
+          battery: "Up to 24 hours",
+          os: "Bluetooth",
+          weight: "253 g",
+          box: "Headphones, case, USB-C cable, audio cable",
+        },
+        {
+          id: "airpods-max-usbc",
+          name: "AirPods Max (USB-C)",
+          category: "Audio",
+          brand: "Apple",
+          storage: "—",
+          ram: "—",
+          color: "Midnight",
+          price: 27999,
+          img: "https://tradelinestores.com/cdn/shop/files/IMG-14820693_m_jpg_0.jpg?v=1770931311&width=1445",
+          desc: "High-fidelity over-ear headphones with Apple-designed H1 chips and USB-C.",
+          chip: "Apple H1 (each earcup)",
+          display: "—",
+          camera: "—",
+          battery: "Up to 20 hours",
+          os: "Bluetooth / USB-C",
+          weight: "386.2 g",
+          box: "AirPods Max, Smart Case, USB-C charge cable",
+        },
+        {
+          id: "airpods-4-anc",
+          name: "AirPods 4 with ANC",
+          category: "Audio",
+          brand: "Apple",
+          storage: "—",
+          ram: "—",
+          color: "White",
+          price: 8999,
+          img: "https://www.ehabgroup.com/wp-content/uploads/2025/04/Untitled-design-12-4.webp",
+          desc: "Open-fit AirPods with Active Noise Cancellation and USB-C charging.",
+          chip: "Apple H2",
+          display: "—",
+          camera: "—",
+          battery: "Up to 5 hours per charge",
+          os: "Bluetooth",
+          weight: "Lightweight earbuds",
+          box: "AirPods 4, USB-C charging case, documentation",
+        },
+        {
+          id: "galaxy-buds3-pro",
+          name: "Samsung Galaxy Buds3 Pro",
+          category: "Audio",
+          brand: "Samsung",
+          storage: "—",
+          ram: "—",
+          color: "Silver",
+          price: 7999,
+          img: "https://f.nooncdn.com/p/pzsku/ZD204BAA23056F8AC7207Z/45/_/1772091269/fdcde688-e5b7-48b3-b01a-8ce97ed19cda.jpg",
+          desc: "Premium Galaxy earbuds with adaptive ANC and hi-res audio support.",
+          chip: "Samsung custom audio platform",
+          display: "—",
+          camera: "—",
+          battery: "Up to 6 hours earbuds (ANC on)",
+          os: "Bluetooth",
+          weight: "5.4 g each",
+          box: "Earbuds, charging case, eartips, USB-C cable",
+        },
+        {
+          id: "pixel-buds-pro-2",
+          name: "Google Pixel Buds Pro 2",
+          category: "Audio",
+          brand: "Google",
+          storage: "—",
+          ram: "—",
+          color: "Hazel",
+          price: 9999,
+          img: "https://m.media-amazon.com/images/I/61DGBXMDMpL.jpg",
+          desc: "Compact ANC earbuds tuned for Pixel phones and Google Assistant features.",
+          chip: "Google Tensor A1",
+          display: "—",
+          camera: "—",
+          battery: "Up to 8 hours with ANC",
+          os: "Bluetooth",
+          weight: "4.7 g each",
+          box: "Earbuds, charging case, eartips, USB-C cable",
+        },
+        {
+          id: "soundcore-liberty-4-pro",
+          name: "Soundcore Liberty 4 Pro",
+          category: "Audio",
+          brand: "Anker Soundcore",
+          storage: "—",
+          ram: "—",
+          color: "Midnight Black",
+          price: 6999,
+          img: "https://media.btech.com/catalogs/e/5/c/2/e5c212f9332d4b28a147e67f7132bbe402f9e23d_cdn_shopify_com_a3954n11_dtc_listing_image_td01_us_v1_be103e63_36db_48d6_867b_15752574f1f5.png",
+          desc: "Feature-rich ANC earbuds with a charging-case touch display.",
+          chip: "Soundcore audio platform",
+          display: "Charging case touch display",
+          camera: "—",
+          battery: "Up to 10 hours earbuds",
+          os: "Bluetooth",
+          weight: "Approx. 6 g each",
+          box: "Earbuds, case, eartips, USB-C cable",
+        },
+        {
+          id: "jbl-live-770nc",
+          name: "JBL Live 770NC",
+          category: "Audio",
+          brand: "JBL",
+          storage: "—",
+          ram: "—",
+          color: "Black",
+          price: 5499,
+          img: "https://f.nooncdn.com/p/pzsku/ZA67B1AA078822E02EE24Z/45/_/1779704932/16a880a3-eb66-4ceb-92cc-5d897ce7810d.jpg?width=1200",
+          desc: "Comfortable adaptive-noise-cancelling over-ear headphones with long battery life.",
+          chip: "JBL audio platform",
+          display: "—",
+          camera: "—",
+          battery: "Up to 65 hours",
+          os: "Bluetooth",
+          weight: "256 g",
+          box: "Headphones, USB-C cable, audio cable, documentation",
+        },
+        {
+          id: "sony-wh-ch720n",
+          name: "Sony WH-CH720N",
+          category: "Audio",
+          brand: "Sony",
+          storage: "—",
+          ram: "—",
+          color: "Blue",
+          price: 6999,
+          img: "https://media.btech.com/catalogs/3/c/f/c/3cfcd094e2f9e6b19f390d19b56f771c4d3d79ca_imgi_1_NewProject_2024_10_12T142225.620_500x.jpg",
+          desc: "Lightweight ANC headphones built for everyday commuting and study.",
+          chip: "Integrated V1 processor",
+          display: "—",
+          camera: "—",
+          battery: "Up to 35 hours",
+          os: "Bluetooth",
+          weight: "192 g",
+          box: "Headphones, USB-C cable, documentation",
+        },
+        {
+          id: "beats-studio-pro",
+          name: "Beats Studio Pro",
+          category: "Audio",
+          brand: "Beats",
+          storage: "—",
+          ram: "—",
+          color: "Sandstone",
+          price: 10999,
+          img: "https://f.nooncdn.com/p/pzsku/ZC172E71BD624CDA171ABZ/45/_/1779791288/af8685b2-2c2a-4f94-980c-f128d06771c7.jpg?width=800",
+          desc: "Wireless over-ear headphones with USB-C lossless audio and strong battery life.",
+          chip: "Beats custom acoustic platform",
+          display: "—",
+          camera: "—",
+          battery: "Up to 40 hours",
+          os: "Bluetooth / USB-C",
+          weight: "260 g",
+          box: "Headphones, USB-C cable, soft case, documentation",
+        },
+        {
+          id: "apple-watch-series-10",
+          name: "Apple Watch Series 10",
+          category: "Wearables",
+          brand: "Apple",
+          storage: "64GB",
+          ram: "—",
+          color: "Jet Black",
+          price: 17999,
+          img: "https://www.apple.com/newsroom/images/2024/09/introducing-apple-watch-series-10/article/Apple-Watch-Series-10-aluminum-jet-black-240909_inline.jpg.large.jpg",
+          desc: "Thinner Apple Watch with a larger wide-angle display and powerful health features.",
+          chip: "S10 SiP",
+          display: "46mm wide-angle OLED Retina LTPO3",
+          camera: "—",
+          battery: "Up to 18 hours",
+          os: "watchOS 11",
+          weight: "Approx. 36 g",
+          box: "Apple Watch, sport band, USB-C magnetic charging cable",
+        },
+        {
+          id: "galaxy-watch7",
+          name: "Samsung Galaxy Watch7",
+          category: "Wearables",
+          brand: "Samsung",
+          storage: "32GB",
+          ram: "2GB",
+          color: "Green",
+          price: 8999,
+          img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=85",
+          desc: "Wear OS smartwatch with advanced health tracking and Galaxy AI features.",
+          chip: "Exynos W1000",
+          display: "Super AMOLED, sapphire crystal",
+          camera: "—",
+          battery: "Up to 40 hours",
+          os: "Wear OS",
+          weight: "Approx. 33.8 g",
+          box: "Watch, band, wireless charger, documentation",
+        },
+        {
+          id: "mx-master-3s",
+          name: "Logitech MX Master 3S",
+          category: "Accessories",
+          brand: "Logitech",
+          storage: "—",
+          ram: "—",
+          color: "Graphite",
+          price: 4999,
+          img: "https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&w=900&q=85",
+          desc: "Premium ergonomic wireless mouse with 8K DPI tracking and MagSpeed scroll wheel.",
+          chip: "Darkfield 8K sensor",
+          display: "—",
+          camera: "—",
+          battery: "Up to 70 days",
+          os: "Bluetooth / Logi Bolt",
+          weight: "141 g",
+          box: "Mouse, USB-C charging cable, documentation",
+        },
+        {
+          id: "anker-737",
+          name: "Anker 737 Power Bank",
+          category: "Accessories",
+          brand: "Anker",
+          storage: "24000mAh",
+          ram: "—",
+          color: "Black",
+          price: 5499,
+          img: "https://pickpowerbank.com/wp-content/uploads/2022/10/Anker-737-Power-Bank.jpg",
+          desc: "High-capacity 140W portable power bank with a smart digital display.",
+          chip: "Smart digital power management",
+          display: "Digital wattage / battery display",
+          camera: "—",
+          battery: "24000mAh",
+          os: "USB-C PD",
+          weight: "630 g",
+          box: "Power bank, USB-C cable, travel pouch, documentation",
+        },
+        {
+          id: "steam-deck-oled",
+          name: "Steam Deck OLED",
+          category: "Gaming",
+          brand: "Valve",
+          storage: "512GB SSD",
+          ram: "16GB",
+          color: "Black",
+          price: 31999,
+          img: "https://f.nooncdn.com/p/pzsku/Z761A4A7D2B6CCB5F215EZ/45/_/1775567794/22fd841d-85a0-4256-864f-c462f53d7be1.jpg",
+          desc: "Handheld PC gaming console with a vibrant 7.4-inch OLED display.",
+          chip: "AMD APU, 4-core Zen 2",
+          display: "7.4-inch OLED, 90Hz",
+          camera: "—",
+          battery: "50Wh",
+          os: "SteamOS",
+          weight: "640 g",
+          box: "Steam Deck OLED, carrying case, USB-C power supply, documentation",
+        },
+      ];
+      const CART_KEY = "techstore_cart_v1";
+      function getCart() {
+        try {
+          return JSON.parse(localStorage.getItem(CART_KEY) || "{}");
+        } catch (e) {
+          return {};
+        }
+      }
+      function saveCart(cart) {
+        localStorage.setItem(CART_KEY, JSON.stringify(cart));
+        updateCartBadge();
+      }
+      function cartCount() {
+        return Object.values(getCart()).reduce((a, b) => a + Number(b), 0);
+      }
+      function updateCartBadge() {
+        document.querySelectorAll("[data-cart-count]").forEach((e) => (e.textContent = cartCount()));
+      }
+      function money(v) {
+        return new Intl.NumberFormat("en-EG").format(v) + " EGP";
+      }
+      function addToCart(id) {
+        const cart = getCart();
+        cart[id] = (cart[id] || 0) + 1;
+        saveCart(cart);
+        toast("Added to cart ✓");
+      }
+      function removeFromCart(id) {
+        const cart = getCart();
+        delete cart[id];
+        saveCart(cart);
+        if (typeof renderCart === "function") renderCart();
+      }
+      function setQty(id, qty) {
+        const cart = getCart();
+        if (qty < 1) delete cart[id];
+        else cart[id] = qty;
+        saveCart(cart);
+        if (typeof renderCart === "function") renderCart();
+      }
+      function toast(msg) {
+        const t = document.getElementById("toast");
+        if (!t) return;
+        t.textContent = msg;
+        t.classList.add("show");
+        clearTimeout(window._toast);
+        window._toast = setTimeout(() => t.classList.remove("show"), 2200);
+      }
+      function escapeHtml(s = "") {
+        return s.replace(
+          /[&<>'"]/g,
+          (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#039;", '"': "&quot;" })[m],
+        );
+      }
+      function header(active) {
+        document.write(
+          `<div class="topbar"><div class="container"><span>Free delivery over 1,500 EGP</span><span>Secure checkout · Genuine products · Local support</span></div></div><header class="navbar"><div class="container nav"><a class="logo" href="index.html">tech<span>store</span>.</a><nav class="navlinks"><a class="${active === "home" ? "active" : ""}" href="index.html">Home</a><a class="${active === "products" ? "active" : ""}" href="products.html">Products</a><a class="${active === "contact" ? "active" : ""}" href="contact.html">Contact</a><a class="${active === "about" ? "active" : ""}" href="about.html">About</a></nav><div class="nav-actions"><a class="iconbtn" href="cart.html" aria-label="Cart">🛒<span class="badge" data-cart-count>0</span></a><button class="iconbtn hamb" onclick="toggleMenu()">☰</button></div></div><div id="mobileMenu" style="display:none;border-top:1px solid var(--line);"><div class="container" style="padding:14px 0 18px;display:grid;gap:10px"><a href="index.html">Home</a><a href="products.html">Products</a><a href="contact.html">Contact</a><a href="about.html">About</a></div></div></header>`,
+        );
+        updateCartBadge();
+      }
+      function toggleMenu() {
+        const m = document.getElementById("mobileMenu");
+        m.style.display = m.style.display === "none" ? "block" : "none";
+      }
+      function footer() {
+        document.write(
+          `<footer><div class="container footer-grid"><div class="footer-brand"><a class="logo" href="index.html">tech<span>store</span>.</a><p>Curated technology with clean shopping, transparent product details, and support that actually answers.</p></div><div><h4>Shop</h4><a href="products.html?cat=Phones">Phones</a><a href="products.html?cat=Laptops">Laptops</a><a href="products.html?cat=Audio">Audio</a><a href="products.html?cat=Accessories">Accessories</a></div><div><h4>Company</h4><a href="about.html">About us</a><a href="contact.html">Contact</a><a href="cart.html">Cart</a></div><div><h4>Support</h4><span>Mon–Sat · 10am–8pm</span><span>+20 100 123 4567</span><span>hello@techstore.eg</span></div></div><div class="container footer-bottom"><span>© 2026 TechStore. Demo storefront for web project.</span><span>Built with HTML · CSS · JavaScript</span></div></footer><div id="toast" class="toast"></div>`,
+        );
+      }
+      function productCard(p) {
+        return `<article class="product-card rise"><div class="product-media"><span class="pill">${escapeHtml(p.category)}</span><img src="${p.img}" alt="${escapeHtml(p.name)}" loading="lazy"></div><div class="product-info"><div class="brand">${escapeHtml(p.brand)}</div><h3>${escapeHtml(p.name)}</h3><p>${escapeHtml(p.desc)}</p><div class="meta"><span>${escapeHtml(p.storage)}</span><span>${escapeHtml(p.ram)} RAM</span></div><div class="price">${money(p.price)}</div><div class="card-actions"><button class="btn btn-primary" onclick="addToCart('${p.id}')">Add to cart</button><a class="btn btn-ghost" href="product.html?id=${encodeURIComponent(p.id)}">View product</a></div></div></article>`;
+      }
+      header("products");
+    </script>
+    <main>
+      <section class="page-hero">
+        <div class="container">
+          <div class="eyebrow">45 curated products</div>
+          <h1>Find your next piece of tech.</h1>
+          <p>
+            Shop phones, laptops, audio, wearables, accessories and gaming gear. Use a category or search by product
+            name.
+          </p>
+          <div class="toolbar">
+            <div class="search"><input id="search" type="search" placeholder="Search TechStore…" /></div>
+            <div class="filters" id="filters"></div>
+          </div>
+          <div class="notice">
+            Product specifications are based on manufacturer-published information for the listed configurations. Prices
+            shown are demo storefront prices for this project.
+          </div>
+        </div>
+      </section>
+      <section class="section" style="padding-top: 20px">
+        <div class="container">
+          <div id="resultMeta" style="color: #91a4bd; font-size: 13px; margin-bottom: 18px"></div>
+          <div id="productGrid" class="grid"></div>
+        </div>
+      </section>
+    </main>
+    <script>
+      const params = new URLSearchParams(location.search);
+      let activeCat = params.get("cat") || "All";
+      const cats = ["All", ...Array.from(new Set(PRODUCTS.map((p) => p.category)))];
+      const f = document.getElementById("filters");
+      f.innerHTML = cats
+        .map((c) => `<button class="filter ${c === activeCat ? "active" : ""}" onclick="setCat('${c}')">${c}</button>`)
+        .join("");
+      function setCat(c) {
+        activeCat = c;
+        history.replaceState({}, "", c === "All" ? "products.html" : "products.html?cat=" + encodeURIComponent(c));
+        document.querySelectorAll(".filter").forEach((x) => x.classList.toggle("active", x.textContent === c));
+        render();
+      }
+      document.getElementById("search").addEventListener("input", render);
+      function render() {
+        const q = document.getElementById("search").value.trim().toLowerCase();
+        const list = PRODUCTS.filter(
+          (p) =>
+            (activeCat === "All" || p.category === activeCat) &&
+            (!q || (p.name + " " + p.brand + " " + p.desc).toLowerCase().includes(q)),
+        );
+        document.getElementById("resultMeta").textContent = `Showing ${list.length} of ${PRODUCTS.length} products`;
+        document.getElementById("productGrid").innerHTML = list.length
+          ? list.map(productCard).join("")
+          : `<div class="empty" style="grid-column:1/-1">No products matched your search.<div class="actions" style="justify-content:center"><button class="btn btn-ghost" onclick="document.getElementById('search').value='';render()">Clear search</button></div></div>`;
+      }
+      render();
+    </script>
+    <script>
+      footer();
+    </script>
+    <script>
+      updateCartBadge();
+    </script>
+  </body>
+</html>
